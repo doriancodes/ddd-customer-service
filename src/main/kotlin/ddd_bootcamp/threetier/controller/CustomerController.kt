@@ -5,13 +5,10 @@ import ddd_bootcamp.domain.Address
 import ddd_bootcamp.domain.Customer
 import ddd_bootcamp.domain.CustomerId
 import ddd_bootcamp.threetier.applicationservice.CustomerAppService
-import ddd_bootcamp.threetier.controller.resource.AccountData
-import ddd_bootcamp.threetier.controller.resource.AddressData
 import ddd_bootcamp.threetier.controller.resource.CustomerResource
 import ddd_bootcamp.threetier.controller.viewModel.AccountRequest
 import ddd_bootcamp.threetier.controller.viewModel.AddressRequest
 import ddd_bootcamp.threetier.controller.viewModel.CustomerRequest
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -48,28 +45,4 @@ class CustomerController(private val customerAppService: CustomerAppService) {
         )
         return CustomerResource.from(customer)
     }
-
-    @GetMapping("/test")
-    fun test(): String {
-        return "hello"
-    }
-}
-
-private fun CustomerResource.Companion.from(customer: Customer): CustomerResource {
-    return CustomerResource(
-        customerId = customer.customerId.id,
-        addressData = AddressData(customer.getAddress().city),
-        accountDataList = customer.getAccounts().map { account -> account.toAccountData() }
-    )
-
-}
-
-private fun CustomerResource.from(customer: Customer): CustomerResource = CustomerResource(
-    customerId = customer.customerId.id,
-    addressData = AddressData(customer.getAddress().city),
-    accountDataList = customer.getAccounts().map { account -> account.toAccountData() }
-    )
-
-private fun Account.toAccountData(): AccountData {
-     return AccountData(accountId = accountIdAsString, addressData = AddressData(getAddress()!!.city))
 }
