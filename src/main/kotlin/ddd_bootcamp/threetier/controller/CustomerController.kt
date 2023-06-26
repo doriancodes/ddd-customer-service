@@ -22,7 +22,7 @@ class CustomerController(private val customerAppService: CustomerAppService) {
     fun create(@RequestBody request: CustomerRequest): CustomerResource {
         println("request = $request")
         val customer = customerAppService.createCustomer(
-            Customer(Address(request.addressRequest.city))
+            Customer(Address(request.addressRequest?.city!!))
         )
         return CustomerResource.from(customer)
     }
@@ -41,7 +41,7 @@ class CustomerController(private val customerAppService: CustomerAppService) {
         println("PathVariable = $customerId")
         val customer = customerAppService.updateAddress(
             CustomerId(UUID.fromString(customerId)),
-            Address(request.city)
+            Address(request.city!!)
         )
         return CustomerResource.from(customer)
     }
